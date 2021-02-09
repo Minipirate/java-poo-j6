@@ -3,6 +3,7 @@ package fr.diginamic.recensement;
 import java.util.Scanner;
 
 import fr.diginamic.recensement.entites.Recensement;
+import fr.diginamic.recensement.services.ExceptionMinimum;
 import fr.diginamic.recensement.services.RechercheDepartementsPlusPeuplees;
 import fr.diginamic.recensement.services.RecherchePopulationBorneService;
 import fr.diginamic.recensement.services.RecherchePopulationDepartementService;
@@ -33,7 +34,7 @@ public class Application {
 		Recensement recensement = RecensementUtils.lire(filePath);
 
 		if (recensement == null) {
-			System.out.println("L'application doit s'arrétée en raison d'une erreur d'exécution.");
+			System.out.println("L'application doit s'arrêter en raison d'une erreur d'exécution.");
 			System.exit(-1);
 		}
 
@@ -66,7 +67,15 @@ public class Application {
 				break;
 			case 4:
 				RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
-				recherchePopBorne.traiter(recensement, scanner);
+				
+				/*
+				 * TRY CATCH EXCEPTION
+				 */
+				try {
+					recherchePopBorne.traiter(recensement, scanner);
+				} catch (ExceptionMinimum e) {
+					System.err.println(e.getMessage());
+				}
 				break;
 			case 5:
 				RechercheVillesPlusPeupleesDepartement rechercheVillesPlusPeupleesDepartement = new RechercheVillesPlusPeupleesDepartement();
